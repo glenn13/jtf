@@ -31,7 +31,7 @@ export const apiGetAttendance = async (token:string, keyword:string) => {
 export const getMembersByEvent = async (id:any, keyword:string, token:string) => {
     try {
 
-        let url = `${CONFIG.API_BASE}/api/attendance/${id}`;
+        let url = `${CONFIG.API_BASE}/api/attendance/${id}/members`;
 
         if (keyword) {
             url += `?search_keyword=${keyword}`;

@@ -5,6 +5,7 @@ import moment from "moment";
 import Badge from "@/components/ui/badge/Badge";
 import Pagination from "@/components/ui/pagination/Pagination";
 import Switch from "@/components/form/switch/Switch";
+import Checkbox from '@/components/form/input/Checkbox';
 import { NAME_COLOR } from "@/components/utils/common";
 import {
     ChevronLeftIcon
@@ -144,9 +145,9 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
         console.log('andito syan')
         if (response?.status) {
             // console.log('dito', response?.data?.members)
-            setData(response?.data?.members?.data);
-            console.log(response?.data?.members)
-            setPagination(response?.data?.members);
+            setData(response?.data?.data);
+            
+            setPagination(response?.data);
             setIsLoading(false);
             // setIsFirstSectionLoaded(true);
             // setLabels(response?.data);
@@ -324,9 +325,8 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                             <div className="flex w-full gap-2">
                                                                                 
                                                                                 <div className="flex gap-4">
-                                                                                    <Switch
-                                                                                        label=""
-                                                                                        defaultChecked={item?.attended}
+                                                                                    <Checkbox 
+                                                                                        checked={item?.attended} 
                                                                                         onChange={() => {
                                                                                             setData(data.map((member:any) => {
                                                                                                 if (member.id === item.id) {
@@ -341,6 +341,23 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                             handleSwitchChange(item?.id, !item?.attended)
                                                                                         }}
                                                                                     />
+                                                                                    {/* <Switch
+                                                                                        label=""
+                                                                                        defaultChecked={item?.attended ? true : false}
+                                                                                        onChange={() => {
+                                                                                            setData(data.map((member:any) => {
+                                                                                                if (member.id === item.id) {
+                                                                                                    return {
+                                                                                                        ...member,
+                                                                                                        attended: !member.attended
+                                                                                                    }
+                                                                                                }
+                                                                                                return member
+                                                                                            }))
+                                                                                            
+                                                                                            handleSwitchChange(item?.id, !item?.attended)
+                                                                                        }}
+                                                                                    /> */}
                                                                                 </div>
                                                                                 <div className="flex w-full items-center gap-3 justify-start">
                                                                                     { item?.name }
