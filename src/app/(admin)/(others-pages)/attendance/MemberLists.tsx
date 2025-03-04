@@ -359,13 +359,43 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                         }}
                                                                                     /> */}
                                                                                 </div>
-                                                                                <div className="flex w-full items-center gap-3 justify-start">
+                                                                                <div 
+                                                                                    className="flex w-full items-center gap-3 justify-start"
+                                                                                    onClick={() => {
+                                                                                        setData(data.map((member:any) => {
+                                                                                            if (member.id === item.id) {
+                                                                                                return {
+                                                                                                    ...member,
+                                                                                                    attended: !member.attended
+                                                                                                }
+                                                                                            }
+                                                                                            return member
+                                                                                        }))
+                                                                                        
+                                                                                        handleSwitchChange(item?.id, !item?.attended)
+                                                                                    }}
+                                                                                >
                                                                                     { item?.name }
                                                                                 </div>
                                                                             </div>
                                                                             
                                                                         </td>
-                                                                        <td className="px-4 py-2 text-[14px] w-[150px]">
+                                                                        <td 
+                                                                            className="px-4 py-2 text-[14px] w-[150px]"
+                                                                            onClick={() => {
+                                                                                setData(data.map((member:any) => {
+                                                                                    if (member.id === item.id) {
+                                                                                        return {
+                                                                                            ...member,
+                                                                                            attended: !member.attended
+                                                                                        }
+                                                                                    }
+                                                                                    return member
+                                                                                }))
+                                                                                
+                                                                                handleSwitchChange(item?.id, !item?.attended)
+                                                                            }}
+                                                                        >
                                                                             {
                                                                                 item?.attended ? (
                                                                                     <>

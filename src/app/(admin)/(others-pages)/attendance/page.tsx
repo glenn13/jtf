@@ -21,11 +21,6 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 import {
     apiGetEventLists,
 } from "@/apis/events/api";
-import {
-    apiGetAttendance,
-    apiUpdateAttendance,
-    getMembersByEvent,
-} from '@/apis/attendance/api';
 import { Skeleton } from "@mui/material";
 import {
     TCountryCode,

@@ -3,7 +3,7 @@ import { CONFIG } from '@/config'
 export const apiGetEvents = async (token:string) => {
     try {
 
-        let url = `${CONFIG.API_BASE}/api/events`;
+        const url = `${CONFIG.API_BASE}/api/events`;
 
         // if (keyword) {
         //     url += `?search_keyword=${keyword}`;
@@ -28,7 +28,7 @@ export const apiGetEvents = async (token:string) => {
         throw error;
     }
 };
-export const apiGetEventLists = async (keyword:any, token:string) => {
+export const apiGetEventLists = async (keyword:string, token:string) => {
     try {
 
         let url = `${CONFIG.API_BASE}/api/events-list`;
@@ -57,7 +57,13 @@ export const apiGetEventLists = async (keyword:any, token:string) => {
     }
 };
 
-
+interface CreateEventRequest {
+    name: string;
+    start_date: string;
+    end_datedate: string;
+    color: string;
+    // Add other fields as necessary
+}
 export const apiCreateEvent = async (request: any, token:string) => {
     try {
         const param = await request;

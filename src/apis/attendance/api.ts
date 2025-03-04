@@ -1,9 +1,9 @@
 import { CONFIG } from '@/config'
 
-export const apiGetAttendance = async (token:string, keyword:string) => {
+export const apiGetAttendance = async (token:string) => {
     try {
 
-        let url = `${CONFIG.API_BASE}/api/attendances`;
+        const url = `${CONFIG.API_BASE}/api/attendances`;
 
         // if (keyword) {
         //     url += `?search_keyword=${keyword}`;
@@ -28,7 +28,7 @@ export const apiGetAttendance = async (token:string, keyword:string) => {
         throw error;
     }
 };
-export const getMembersByEvent = async (id:any, keyword:string, token:string) => {
+export const getMembersByEvent = async (id:number, keyword:string, token:string) => {
     try {
 
         let url = `${CONFIG.API_BASE}/api/attendance/${id}/members`;
@@ -57,8 +57,14 @@ export const getMembersByEvent = async (id:any, keyword:string, token:string) =>
     }
 };
 
+interface UpdateAttendanceRequest {
+    is_present: boolean;
+    event_id: number;
+    member_id: number;
+}
 
-export const apiUpdateAttendance = async (id:any, request: any, token:string) => {
+
+export const apiUpdateAttendance = async (id:number, request:UpdateAttendanceRequest , token:string) => {
     try {
         const param = await request;
         const response = await fetch(`${CONFIG.API_BASE}/api/attendance/${id}/upsert`, {

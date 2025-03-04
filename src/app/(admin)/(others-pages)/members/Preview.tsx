@@ -1,0 +1,340 @@
+"use client"
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import Calendar from "@/components/calendar/Calendar";
+import moment from "moment";
+import Badge from "@/components/ui/badge/Badge";
+import Pagination from "@/components/ui/pagination/Pagination";
+import Switch from "@/components/form/switch/Switch";
+import Checkbox from '@/components/form/input/Checkbox';
+import { NAME_COLOR } from "@/components/utils/common";
+import {
+    ChevronLeftIcon
+} from '@/components/ui/icons/icons'
+import FormPage from '@/app/(admin)/(others-pages)/members/FormPage';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHeader,
+    TableRow,
+  } from '@/components/ui/table';
+
+import { Toaster, toast } from 'react-hot-toast';
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+import {
+    apiGetEventLists,
+} from "@/apis/events/api";
+import {
+    apiGetUser,
+} from "@/apis/users/api";
+import {
+    apiGetAttendance,
+    apiUpdateAttendance,
+    getMembersByEvent,
+} from '@/apis/attendance/api';
+import { Skeleton } from "@mui/material";
+import {
+    TCountryCode,
+    countries,
+    getCountryCode,
+    getCountryData,
+    getEmojiFlag,
+} from "countries-list";
+
+interface IPreviewProps {
+    memberId?: any;
+    onHandleClosePreview?: any;
+}
+const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
+
+    const [selectedId, setSelectedId] = React.useState<number | null>(null);
+    const [selectedName, setSelectedName] = React.useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+    const userToken = 'dfghjhgewqergserasrgee';
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    
+    const [data, setData] = useState<any>();
+    const [pagination, setPagination] = useState<any>({});
+    const [paginationAttendnace, setPaginationAttendance] = useState<any>({});
+    const inputSearchRef = useRef<HTMLInputElement>(null);
+    const inputSearchMemberRef = useRef<HTMLInputElement>(null);
+    const [searchKeyword, setSearchKeyword] = useState<string>("");
+    const [searchMemberKeyword, setSearchMemberKeyword] = useState<string>("");
+    const [minimizeLists, setMinimizeLists] = useState(false);
+    const [selectedmemberId, setSelectedmemberId] = useState<number | null>(null);
+    const [attendance, setAttendance] = useState<any>([]);
+    const [membersLists, setMembersLists] = useState<any>([]);
+
+    // const getEventLists = useCallback(async () => {
+    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
+    //     const keyword = searchKeyword;
+    //     const response = await apiGetEventLists(searchKeyword, userToken);
+    //     if (response?.status) {
+    //         // setEvents(response?.data?.data);
+    //         setData(response?.data?.data);
+    //         setPagination(response?.data);
+    //         setIsLoading(false);
+    //         // setIsFirstSectionLoaded(true);
+    //         // setLabels(response?.data);
+    //     }
+    // }, [searchKeyword]);
+    // const getAttendanceLists = useCallback(async () => {
+    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
+    //     const response = await apiGetAttendance(userToken, searchKeyword);
+    //     if (response?.status) {
+    //         setAttendance(response?.data?.data);
+    //         setPagination(response?.data);
+    //         setIsLoading(false);
+    //         // setIsFirstSectionLoaded(true);
+    //         // setLabels(response?.data);
+    //     }
+    // }, [searchKeyword]);
+    
+      useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+          if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+            event.preventDefault();
+            inputSearchRef.current?.focus();
+          }
+        };
+    
+        document.addEventListener("keydown", handleKeyDown);
+    
+        return () => {
+          document.removeEventListener("keydown", handleKeyDown);
+        };
+      }, []);
+
+
+    // const handleCreateNewRecord = (id?:any) => {
+    //     // setIsModalOpen(true);
+    //     // if (id) {
+
+    //     // } else {
+    //         setIsModalOpen(true);
+    //         console.log("Open Modal");
+    //     // }
+    // }
+    // const handleCloseModal = () => {
+    //     setIsModalOpen(false);
+    //     // setSelectedId(null);
+    // }
+
+
+    // const handleSwitchChange = async (id:any, checked: boolean) => {
+    //     console.log("Switch is now:", checked ? "ON" : "OFF");
+    //     // apiUpdateAttendance
+
+    //     // const keyword = searchKeyword;
+    //     const request = {is_present: checked, event_id: memberId, member_id: id};
+    //     const response = await apiUpdateAttendance(id, request, userToken);
+    //     if (response?.status) {
+    //     }
+    // };
+
+    const getUser = useCallback(async () => {
+        const response = await apiGetUser(memberId, userToken);
+        if (response?.status) {
+            setData(response?.data);
+            setIsLoading(false);
+        }
+    }, [memberId]);
+
+    // const getAttendanceMember = useCallback(async () => {
+    //     const response = await getMembersByEvent(memberId, searchKeyword, userToken);
+    //     console.log('andito syan')
+    //     if (response?.status) {
+    //         setData(response?.data?.data);
+            
+    //         setPagination(response?.data);
+    //         setIsLoading(false);
+    //     }
+    // }, [memberId, searchKeyword]);
+
+    const handleClosePreview = () => {
+        onHandleClosePreview()
+    }
+    useEffect(() => {
+        if (memberId) {
+            getUser()
+        }
+    }, [memberId])
+    return (
+        <>
+
+            <div className=" border bg-white w-full">
+                <div className="w-full">
+                    <div className="grid py-4 w-full">
+                        <div className="grid-cols-1 flex px-4">
+                            <div className="flex justify-between w-full">
+                                <div className="text-lg flex items-center text-[13px] gap-2 w-full">
+                                    <div
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                            handleClosePreview()
+                                        }}    
+                                    >
+                                        <ChevronLeftIcon height={'22px'} width={'22px'} />
+                                    </div>
+                                    <div className="flex items-center justify-between gap-3 w-full">
+                                        <div className="text-[15px] font-medium">
+                                            Member Details
+                                        </div>
+                                        <div className="ml-auto">
+
+                                            Edit
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                {/* <div className="ml-auto">
+                                    Event Details
+                                </div> */}
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr className=" border-b-0 border-gray-300 -mt-[4px]" />
+
+
+                    <div className="grid grid-cols-12 h-[calc(100vh-138px)]">
+                        <div className="col-span-12 p-4">
+                            <div className="grid grid-cols-12 gap-2">
+                                <div className="col-span-12">
+
+                                    <div className="flex w-full gap-3 items-center justify-center">
+                                        
+                                            <div
+                                                className="flex items-center justify-center w-[80px] h-[80px] rounded-full bg-primary text-white select-none text-2xl"
+                                                style={{
+                                                    background: (NAME_COLOR as any)?.[data?.name?.[0]?.toUpperCase() || "A"],
+                                                    // background: (NAME_COLOR as any)?.["A"],
+                                                }}
+                                            >
+                                                {
+                                                    data?.name && (
+                                                        <>
+                                                            {data?.name?.split(" ")?.[0]?.[0]?.toUpperCase()}
+                                                            {data?.name?.split(" ")?.[1]?.[0]?.toUpperCase()}
+                                                        </>
+                                                    )
+                                                }
+                                            </div>
+                                            
+
+                                    </div>
+                                </div>
+                                <div className="col-span-12">
+                                    <div className="space-y-6 bg-white border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                                        <div className=" rounded-xl ">
+                                            <div className="border-b border-gray-200 ">
+                                                <nav className="-mb-px flex space-x-2 overflow-x-auto rounded-full ">
+                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400">
+                                                        Overview
+                                                        <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">8</span>
+                                                    </button>
+                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                        Notification
+                                                    </button>
+                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                        Analytics
+                                                        <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">4</span>
+                                                    </button>
+                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                        Customers
+                                                        <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">12</span>
+                                                    </button>
+                                                </nav>
+                                            </div>
+                                            <div className="pt-4 dark:border-gray-800">
+                                                <div className="block">
+                                                    <div>
+                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Overview</h3>
+                                                        <div className="grid grid-cols-12">
+                                                            
+                                                            <div className="col-span-12">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Name
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        { data?.name }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Birthdate
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        { data?.birthdate }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Birthdate
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        { data?.birthdate }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="text-sm text-gray-500 dark:text-gray-400">Overview ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</div>
+                                                    </div>
+                                                </div>
+                                                <div className="hidden">
+                                                    <div>
+                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Notification</h3>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400">Notification ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</p>
+                                                    </div>
+                                                </div>
+                                                <div className="hidden">
+                                                    <div>
+                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Analytics</h3>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400">Analytics ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</p>
+                                                    </div>
+                                                </div>
+                                                <div className="hidden">
+                                                    <div>
+                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Customers</h3>
+                                                        <p className="text-sm text-gray-500 dark:text-gray-400">Customers ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            {/* {
+                isModalOpen && (
+                    <>
+                        <FormPage 
+                            id={selectedId}
+                            onHandleLoadLists={() => {
+                                handleLoadLists()
+                            }}
+                            onHandleCloseModal={() => {
+                                handleCloseModal()
+                            }}
+                        />
+                    </>
+                )
+            } */}
+
+
+        </>
+    );
+}
+
+export default Preview;

@@ -55,3 +55,28 @@ export const apiCreateUser = async (request: any, token:string) => {
         throw error;
     }
 };
+
+export const apiGetUser = async (id:number, token:string) => {
+    try {
+
+
+        const response = await fetch(`${CONFIG.API_BASE}/api/user/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data; // Assuming the API response has a `data` field
+    } catch (error) {
+        console.error('Error verifying username', error);
+        throw error;
+    }
+};
