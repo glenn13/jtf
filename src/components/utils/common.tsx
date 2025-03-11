@@ -9,7 +9,7 @@ export const linkifyString = (str: string) => {
     }
   };
   
-  export const stringyfyLink: any = (str: string) => {
+  export const stringyfyLink = (str: string) => {
     return str.replace("http://", "").replace("https://", "");
   };
   

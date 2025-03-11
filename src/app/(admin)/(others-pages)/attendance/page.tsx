@@ -30,27 +30,20 @@ import {
     getEmojiFlag,
 } from "countries-list";
 
-const page = () => {
-    const [selectedId, setSelectedId] = React.useState<number | null>(null);
-    const [selectedName, setSelectedName] = React.useState<string | null>(null);
+const Page = () => {
     const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
     const userToken = 'dfghjhgewqergserasrgee';
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isLoadingMember, setIsLoadingMember] = useState<boolean>(true);
     const [data, setData] = useState<any>([]);
     const [pagination, setPagination] = useState<any>({});
-    // const [paginationAttendnace, setPaginationAttendance] = useState<any>({});
     const inputSearchRef = useRef<HTMLInputElement>(null);
     // const inputSearchMemberRef = useRef<HTMLInputElement>(null);
     const [searchKeyword, setSearchKeyword] = useState<string>("");
-    // const [searchMemberKeyword, setSearchMemberKeyword] = useState<string>("");
     const [minimizeLists, setMinimizeLists] = useState(false);
     const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
-    // const [attendance, setAttendance] = useState<any>([]);
 
     const getEventLists = useCallback(async () => {
-        // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
-        const keyword = searchKeyword;
         const response = await apiGetEventLists(searchKeyword, userToken);
         if (response?.status) {
             // setEvents(response?.data?.data);
@@ -941,4 +934,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Page;

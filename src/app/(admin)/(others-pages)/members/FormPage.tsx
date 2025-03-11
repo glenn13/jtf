@@ -165,7 +165,7 @@ const FormPage: React.FC<FormPageProps> = ({
                     {id ? "Update Member information" : "Add Member"}
                 </h5>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Please enter member's details below
+                    Please enter member`s details below
                 </p>
                 </div>
                 <div className="mt-4">

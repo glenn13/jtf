@@ -1,18 +1,25 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { countries } from "countries-list";
-// import 'flag-icons/css/flag-icons.min.css';
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 const CountriesSelectComponent = (
     { value, onChange, selectStyle, defaultValue, disabled, label, labelStyle }: 
     { value: any; onChange: (value: any) => void, selectStyle?: any, defaultValue?: any, disabled?: any, label?: any, labelStyle?: any }
 ) => {
-    const countryOptions = Object.entries(countries).map(([code, details]) => ({
+    const countryOptions = useMemo(() => Object.entries(countries).map(([code, details]) => ({
         value: details.phone?.[0],
         label: details.name,
         flagCode: code.toLowerCase(),
         searchText: `${details.name} +${details.phone?.[0]}`.toLowerCase(),
-    }));
+    })), []);
+
+    const handleSelect = useCallback((selectedValue: any) => {
+        setSearchValue("");
+        setSelectedOption(selectedValue);
+        onChange(selectedValue);
+        setIsOpen(false);
+        console.log('selectedValue', selectedValue);
+    }, [onChange]);
 
     useEffect(() => {
         if (defaultValue) {
@@ -21,13 +28,12 @@ const CountriesSelectComponent = (
                 setSelectedOption(selectedOption);
             }
         }
-    }, []);
+    }, [defaultValue, countryOptions]);
 
     const [isOpen, setIsOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [filteredOptions, setFilteredOptions] = useState(countryOptions);
     const [selectedOption, setSelectedOption] = useState<any>(value);
-
 
     const dropDownDiv = React.createRef<HTMLDivElement>();
 
@@ -46,8 +52,6 @@ const CountriesSelectComponent = (
         };
     }, [dropDownDiv]);
 
-
-
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === "Enter" && isOpen && filteredOptions.length > 0) {
@@ -56,7 +60,7 @@ const CountriesSelectComponent = (
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen, filteredOptions]);
+    }, [isOpen, filteredOptions, handleSelect]);
 
     const memoizedCountryOptions = useMemo(() => countryOptions, [countryOptions]);
 
@@ -70,7 +74,7 @@ const CountriesSelectComponent = (
                 if (!search.startsWith("+")) {
                     return option.searchText.toLowerCase().includes(search);
                 }
-                let newSearchValue = search.replace("+", "");
+                const newSearchValue = search.replace("+", "");
                 return option.value?.toString().includes(newSearchValue);
             })
             .sort((a, b) => {
@@ -97,17 +101,7 @@ const CountriesSelectComponent = (
         }
     }, [isOpen]);
 
-
-
     const toggleDropdown = () => setIsOpen((prev) => !prev);
-
-    const handleSelect = (selectedValue: any) => {
-        setSearchValue("");
-        setSelectedOption(selectedValue);
-        onChange(selectedValue);
-        setIsOpen(false);
-        console.log('selectedValue', selectedValue)
-    };
 
     return (
         <div ref={dropDownDiv} className="relative">
@@ -116,14 +110,17 @@ const CountriesSelectComponent = (
                 style={{
                     lineHeight: "37px",
                     border: "1px solid #e1e1e1",
-                    // borderRadius: isOpen ? '0'`10px`,
                     borderTopRightRadius: '10px',
                     borderTopLeftRadius: '10px',
                     borderBottomLeftRadius: isOpen ? `0` : `10px`,
                     borderBottomRightRadius: isOpen ? `0` : `10px`,
                     padding: "0 20px",
                 }}
-                onClick={()=> {!disabled ? toggleDropdown() : null}}
+                onClick={()=> {
+                    if (!disabled) {
+                        toggleDropdown()
+                    }
+                }}
             >
                 <div className="justify-center px-[2px] flex items-center">
                     <span className={`fi fi-${selectedOption?.flagCode} text-[12px] mr-2`}></span>
@@ -139,9 +136,6 @@ const CountriesSelectComponent = (
                     <div 
                         className="absolute bg-white border z-[5]  mt-1 max-h-60 overflow-y-auto border-gray-300  rounded-md shadow-lg"
                         style={{
-                            // background: #fff;
-                            // position: absolute;
-                            // border: 1px solid #e0e0e0;
                             borderBottomRightRadius: '10px',
                             borderBottomLeftRadius: '10px',
                             width: '300px',

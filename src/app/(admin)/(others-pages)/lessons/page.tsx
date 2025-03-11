@@ -6,7 +6,7 @@ import ComponentCard from "@/components/common/ComponentCard";
 import Pagination from "@/components/ui/pagination/Pagination";
 import Link from "next/link";
 import { NAME_COLOR } from "@/components/utils/common";
-import FormPage from '../members/FormPage';
+import FormPage from './FormPage';
 import {
     Table,
     TableBody,
@@ -14,7 +14,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import Preview from './Preview';
+// import Preview from './Preview';
 import { Toaster, toast } from 'react-hot-toast';
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import {
@@ -30,9 +30,9 @@ import {
 } from "countries-list";
 
 const Page = () => {
-    const [selectedId, setSelectedId] = useState<number | null>(null);
-    const [selectedName, setSelectedName] = useState<string | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [selectedId, setSelectedId] = React.useState<number | null>(null);
+    const [selectedName, setSelectedName] = React.useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
     const userToken = '1234567890';
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [data, setData] = useState<any>([]);
@@ -72,13 +72,7 @@ const Page = () => {
 
 
     const handleCreateNewRecord = (id?:any) => {
-        // setIsModalOpen(true);
-        // if (id) {
-
-        // } else {
-            setIsModalOpen(true);
-            console.log("Open Modal");
-        // }
+        setMinimizeLists(true);
     }
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -114,7 +108,7 @@ const Page = () => {
                                     <div className="grid py-[12px] w-full">
                                     <div className="grid-cols-1 flex px-4">
                                         <div className="items-center">
-                                            <div className="text-[14px] font-medium flex mt-1">Members</div>
+                                            <div className="text-[14px] font-medium flex mt-1">Lessons</div>
                                         </div>
                                         <div className="ml-auto flex gap-1">
                                         <button
@@ -132,16 +126,11 @@ const Page = () => {
 
                                     <hr className=" border-b-0 border-gray-300 -mt-2" />
 
-                                    <div
-                                        className="grid py-2 rounded-lg"
-                                        // onClick={() => {
-                                        //     handleFilterBylabel(null);
-                                        // }}
-                                    >
+                                    <div className="grid py-2 rounded-lg">
                                     <div className="grid-cols-1  hover:bg-gray-100 py-1 rounded-full cursor-pointer">
                                         <div className="px-4 flex">
                                         <div className="flex gap-3 text-[14px]">
-                                            All Members
+                                            All Lessons
                                         </div>
                                         {data?.length > 0 && (
                                             <div className="ml-auto bg-blue-600 rounded-lg px-3 py-0.5 text-white">
@@ -284,10 +273,18 @@ const Page = () => {
                                 </div>
                             </div>
                             <div className="w-full">
-                                <Preview 
+                                {/* <Preview 
                                     memberId={selectedMemberId}
                                     onHandleClosePreview={() => {
                                         setMinimizeLists(false)
+                                    }}
+                                /> */}
+
+
+                                <FormPage 
+                                    id={selectedId}
+                                    onHandleLoadLists={() => {
+                                        handleLoadLists()
                                     }}
                                 />
                             </div>
@@ -300,7 +297,7 @@ const Page = () => {
                                 <div className={`border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]`}>
                                     <div className="px-6 py-2 flex justify-between items-center">
                                         <h3 className="text-base font-medium text-gray-800 dark:text-white/90 flex gap-1">
-                                            Members <span className="hidden sm:block">List</span>
+                                            Lessons 
                                         </h3>
                                         <div className="flex gap-2">
             
@@ -498,22 +495,6 @@ const Page = () => {
 
                 
             </div>
-
-            {
-                isModalOpen && (
-                    <>
-                        <FormPage 
-                            id={selectedId}
-                            onHandleLoadLists={() => {
-                                handleLoadLists()
-                            }}
-                            onHandleCloseModal={() => {
-                                handleCloseModal()
-                            }}
-                        />
-                    </>
-                )
-            }
 
         </>
     );

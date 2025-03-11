@@ -61,32 +61,7 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
     const [attendance, setAttendance] = useState<any>([]);
     const [membersLists, setMembersLists] = useState<any>([]);
 
-    // const getEventLists = useCallback(async () => {
-    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
-    //     const keyword = searchKeyword;
-    //     const response = await apiGetEventLists(searchKeyword, userToken);
-    //     if (response?.status) {
-    //         // setEvents(response?.data?.data);
-    //         setData(response?.data?.data);
-    //         setPagination(response?.data);
-    //         setIsLoading(false);
-    //         // setIsFirstSectionLoaded(true);
-    //         // setLabels(response?.data);
-    //     }
-    // }, [searchKeyword]);
-    // const getAttendanceLists = useCallback(async () => {
-    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
-    //     const response = await apiGetAttendance(userToken, searchKeyword);
-    //     if (response?.status) {
-    //         setAttendance(response?.data?.data);
-    //         setPagination(response?.data);
-    //         setIsLoading(false);
-    //         // setIsFirstSectionLoaded(true);
-    //         // setLabels(response?.data);
-    //     }
-    // }, [searchKeyword]);
-    
-      useEffect(() => {
+    useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
           if ((event.metaKey || event.ctrlKey) && event.key === "k") {
             event.preventDefault();
@@ -103,69 +78,45 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
 
 
     const handleCreateNewRecord = (id?:any) => {
-        // setIsModalOpen(true);
-        // if (id) {
-
-        // } else {
-            setIsModalOpen(true);
-            console.log("Open Modal");
-        // }
+        setIsModalOpen(true);
+        console.log("Open Modal");
     }
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        // setSelectedId(null);
     }
-
-    // const handleLoadLists = async () => {
-    //     toast.success('Member created successfully!');
-    //     // console.log('okay na')
-    //     // getAttendanceLists()
-    //     setIsModalOpen(false)
-    // }
 
     const handleSwitchChange = async (id:any, checked: boolean) => {
         console.log("Switch is now:", checked ? "ON" : "OFF");
-        // apiUpdateAttendance
 
-        // const keyword = searchKeyword;
         const request = {is_present: checked, event_id: eventId, member_id: id};
         const response = await apiUpdateAttendance(id, request, userToken);
         if (response?.status) {
-            // setData(response?.data?.data);
-            // setPagination(response?.data);
-            // setIsLoading(false);
-            // setIsFirstSectionLoaded(true);
-            // setLabels(response?.data);
         }
     };
 
     const getAttendanceMember = useCallback(async () => {
-        // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
         const response = await getMembersByEvent(eventId, searchKeyword, userToken);
         console.log('andito syan')
         if (response?.status) {
-            // console.log('dito', response?.data?.members)
             setData(response?.data?.data);
-            
             setPagination(response?.data);
             setIsLoading(false);
-            // setIsFirstSectionLoaded(true);
-            // setLabels(response?.data);
         }
-    }, [eventId, searchKeyword]);
+    }, [eventId, searchKeyword, userToken]);
 
     const handleClosePreview = () => {
         onHandleClosePreview()
     }
+
     useEffect(() => {
         console.log('selectedEventId', eventId)
         if (eventId) {
             getAttendanceMember()
         }
-    }, [eventId, searchKeyword])
+    }, [eventId, searchKeyword, getAttendanceMember])
+
     return (
         <>
-
             <div className=" border bg-white w-full">
                 <div className="w-full">
                     <div className="grid py-4 w-full">
@@ -185,7 +136,6 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                             Event Details
                                         </div>
                                         <div className="ml-auto">
-
                                             {
                                                 data?.filter((item:any) => item?.attended).length > 0 ? (
                                                     <>
@@ -207,27 +157,16 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                     </>
                                                 )
                                             }
-
                                         </div>
                                     </div>
-                                    
                                 </div>
-                                {/* <div className="ml-auto">
-                                    Event Details
-                                </div> */}
                             </div>
                         </div>
                     </div>
 
                     <hr className=" border-b-0 border-gray-300 -mt-[4px]" />
 
-                    <div
-                        className="grid py-2 rounded-lg"
-                        // onClick={() => {
-                        //     handleFilterBylabel(null);
-                        // }}
-                    >
-                            
+                    <div className="grid py-2 rounded-lg">
                         <div className="relative py-1 px-2 rounded-full">
                             <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
                                 <svg
@@ -254,18 +193,14 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                 placeholder="Search or type command..."
                                 className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2 pl-12 pr-14 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
                             />
-
                         </div>
                     </div>
 
                     <hr className=" border-b-0 border-gray-300 " />
 
                     <div className="grid">
-
                         <div className=" border-gray-100 dark:border-gray-800">
                             <div className="w-full">
-
-
                                 <table className="min-w-full bg-white">
                                     <thead>
                                         <tr className="text-gray-600 text-sm font-medium">
@@ -275,7 +210,6 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                     </thead>
                                 </table>
                                 <div className="md:h-[calc(100vh-280px)] overflow-y-auto">
-
                                     <table className="min-w-full bg-white">
                                         <tbody>
                                             {
@@ -316,14 +250,9 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                     <tr 
                                                                         key={counter}
                                                                         className="hover:bg-gray-100 cursor-pointer"
-                                                                        // onClick={() => {
-                                                                        //     // setSelectedEventId(item?.id)
-                                                                        //     // setMinimizeLists(true)
-                                                                        // }}
                                                                     >
                                                                         <td className="px-4 py-2 text-[14px]">
                                                                             <div className="flex w-full gap-2">
-                                                                                
                                                                                 <div className="flex gap-4">
                                                                                     <Checkbox 
                                                                                         checked={item?.attended} 
@@ -341,23 +270,6 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                             handleSwitchChange(item?.id, !item?.attended)
                                                                                         }}
                                                                                     />
-                                                                                    {/* <Switch
-                                                                                        label=""
-                                                                                        defaultChecked={item?.attended ? true : false}
-                                                                                        onChange={() => {
-                                                                                            setData(data.map((member:any) => {
-                                                                                                if (member.id === item.id) {
-                                                                                                    return {
-                                                                                                        ...member,
-                                                                                                        attended: !member.attended
-                                                                                                    }
-                                                                                                }
-                                                                                                return member
-                                                                                            }))
-                                                                                            
-                                                                                            handleSwitchChange(item?.id, !item?.attended)
-                                                                                        }}
-                                                                                    /> */}
                                                                                 </div>
                                                                                 <div 
                                                                                     className="flex w-full items-center gap-3 justify-start"
@@ -424,7 +336,6 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                     </table>
                                 </div>
                                 <div>
-                
                                     {(data?.length > 0 && !isLoading) && (
                                         <>
                                             {pagination && (
@@ -449,24 +360,6 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                     </div>
                 </div>
             </div>
-                
-            {/* {
-                isModalOpen && (
-                    <>
-                        <FormPage 
-                            id={selectedId}
-                            onHandleLoadLists={() => {
-                                handleLoadLists()
-                            }}
-                            onHandleCloseModal={() => {
-                                handleCloseModal()
-                            }}
-                        />
-                    </>
-                )
-            } */}
-
-
         </>
     );
 }

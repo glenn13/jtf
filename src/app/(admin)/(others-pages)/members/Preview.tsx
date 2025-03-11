@@ -46,49 +46,12 @@ interface IPreviewProps {
     onHandleClosePreview?: any;
 }
 const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
-
-    const [selectedId, setSelectedId] = React.useState<number | null>(null);
-    const [selectedName, setSelectedName] = React.useState<string | null>(null);
-    const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+    
     const userToken = 'dfghjhgewqergserasrgee';
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
     const [data, setData] = useState<any>();
-    const [pagination, setPagination] = useState<any>({});
-    const [paginationAttendnace, setPaginationAttendance] = useState<any>({});
     const inputSearchRef = useRef<HTMLInputElement>(null);
-    const inputSearchMemberRef = useRef<HTMLInputElement>(null);
-    const [searchKeyword, setSearchKeyword] = useState<string>("");
-    const [searchMemberKeyword, setSearchMemberKeyword] = useState<string>("");
-    const [minimizeLists, setMinimizeLists] = useState(false);
-    const [selectedmemberId, setSelectedmemberId] = useState<number | null>(null);
-    const [attendance, setAttendance] = useState<any>([]);
-    const [membersLists, setMembersLists] = useState<any>([]);
-
-    // const getEventLists = useCallback(async () => {
-    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
-    //     const keyword = searchKeyword;
-    //     const response = await apiGetEventLists(searchKeyword, userToken);
-    //     if (response?.status) {
-    //         // setEvents(response?.data?.data);
-    //         setData(response?.data?.data);
-    //         setPagination(response?.data);
-    //         setIsLoading(false);
-    //         // setIsFirstSectionLoaded(true);
-    //         // setLabels(response?.data);
-    //     }
-    // }, [searchKeyword]);
-    // const getAttendanceLists = useCallback(async () => {
-    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
-    //     const response = await apiGetAttendance(userToken, searchKeyword);
-    //     if (response?.status) {
-    //         setAttendance(response?.data?.data);
-    //         setPagination(response?.data);
-    //         setIsLoading(false);
-    //         // setIsFirstSectionLoaded(true);
-    //         // setLabels(response?.data);
-    //     }
-    // }, [searchKeyword]);
     
       useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -106,32 +69,6 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
       }, []);
 
 
-    // const handleCreateNewRecord = (id?:any) => {
-    //     // setIsModalOpen(true);
-    //     // if (id) {
-
-    //     // } else {
-    //         setIsModalOpen(true);
-    //         console.log("Open Modal");
-    //     // }
-    // }
-    // const handleCloseModal = () => {
-    //     setIsModalOpen(false);
-    //     // setSelectedId(null);
-    // }
-
-
-    // const handleSwitchChange = async (id:any, checked: boolean) => {
-    //     console.log("Switch is now:", checked ? "ON" : "OFF");
-    //     // apiUpdateAttendance
-
-    //     // const keyword = searchKeyword;
-    //     const request = {is_present: checked, event_id: memberId, member_id: id};
-    //     const response = await apiUpdateAttendance(id, request, userToken);
-    //     if (response?.status) {
-    //     }
-    // };
-
     const getUser = useCallback(async () => {
         const response = await apiGetUser(memberId, userToken);
         if (response?.status) {
@@ -140,17 +77,6 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
         }
     }, [memberId]);
 
-    // const getAttendanceMember = useCallback(async () => {
-    //     const response = await getMembersByEvent(memberId, searchKeyword, userToken);
-    //     console.log('andito syan')
-    //     if (response?.status) {
-    //         setData(response?.data?.data);
-            
-    //         setPagination(response?.data);
-    //         setIsLoading(false);
-    //     }
-    // }, [memberId, searchKeyword]);
-
     const handleClosePreview = () => {
         onHandleClosePreview()
     }
@@ -158,7 +84,7 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
         if (memberId) {
             getUser()
         }
-    }, [memberId])
+    }, [memberId, getUser])
     return (
         <>
 

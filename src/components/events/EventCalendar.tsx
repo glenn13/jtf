@@ -44,31 +44,27 @@ const EventCalendar: React.FC = () => {
 		Warning: "warning",
 	};
 
-	useEffect(() => {
-		// // Initialize with some events
-		// setEvents([
-		// 	{
-		// 		id: "1",
-		// 		title: "Event Conf.",
-		// 		start: new Date().toISOString().split("T")[0],
-		// 		extendedProps: { calendar: "Danger" },
-		// 	},
-		// 	{
-		// 		id: "2",
-		// 		title: "Meeting",
-		// 		start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-		// 		extendedProps: { calendar: "Success" },
-		// 	},
-		// 	{
-		// 		id: "3",
-		// 		title: "Workshop",
-		// 		start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-		// 		end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
-		// 		extendedProps: { calendar: "Primary" },
-		// 	},
-		// ]);
-		getEventLists();
+	const getEventLists = useCallback(async () => {
+		const response = await apiGetEvents(userToken);
+		if (response?.status) {
+
+			const populate = response?.data.map((item: any) => {
+				return {
+					id: item.id,
+					title: item.name,
+					color: item.color,
+					start: item.start_date,
+					// end: item.end_date,
+					extendedProps: { calendar: item.color },
+				};
+			});
+			setEvents(populate)
+		}
 	}, []);
+
+	useEffect(() => {
+		getEventLists();
+	}, [getEventLists]);
 
 	const handleDateSelect = (selectInfo: DateSelectArg) => {
 		resetModalFields();
@@ -163,24 +159,6 @@ const EventCalendar: React.FC = () => {
 		setEventLevel("");
 		setSelectedEvent(null);
 	};
-
-	const getEventLists = useCallback(async () => {
-		const response = await apiGetEvents(userToken);
-		if (response?.status) {
-
-			const populate = response?.data.map((item: any) => {
-				return {
-					id: item.id,
-					title: item.name,
-					color: item.color,
-					start: item.start_date,
-					// end: item.end_date,
-					extendedProps: { calendar: item.color },
-				};
-			});
-			setEvents(populate)
-		}
-	}, []);
 
 	return (
 		<div className="rounded-2xl border  border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -289,20 +267,6 @@ const EventCalendar: React.FC = () => {
 							</div>
 						</div>
 
-						{/* <div className="mt-6">
-							<label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-								Enter End Date
-							</label>
-							<div className="relative">
-								<input
-									id="event-end-date"
-									type="date"
-									value={eventEndDate}
-									onChange={(e) => setEventEndDate(e.target.value)}
-									className="dark:bg-dark-900 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pl-4 pr-11 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
-								/>
-							</div>
-						</div> */}
 					</div>
 					<div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
 						<button

@@ -18,21 +18,26 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  {
-    icon: <CalenderIcon />,
-    name: "Attendance",
-    path: "/attendance",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Members",
-    path: "/members",
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Events",
-    path: "/events",
-  },
+    {
+      icon: <CalenderIcon />,
+      name: "Attendance",
+      path: "/attendance",
+    },
+    {
+      icon: <UserCircleIcon />,
+      name: "Members",
+      path: "/members",
+    },
+    {
+      icon: <CalenderIcon />,
+      name: "Events",
+      path: "/events",
+    },
+    {
+      icon: <CalenderIcon />,
+      name: "Lessons",
+      path: "/lessons",
+    },
 ];
 
 const othersItems: NavItem[] = [];

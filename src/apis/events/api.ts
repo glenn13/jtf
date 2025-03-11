@@ -57,13 +57,13 @@ export const apiGetEventLists = async (keyword:string, token:string) => {
     }
 };
 
-interface CreateEventRequest {
-    name: string;
-    start_date: string;
-    end_datedate: string;
-    color: string;
-    // Add other fields as necessary
-}
+// interface CreateEventRequest {
+//     name: string;
+//     start_date: string;
+//     end_datedate: string;
+//     color: string;
+//     // Add other fields as necessary
+// }
 export const apiCreateEvent = async (request: any, token:string) => {
     try {
         const param = await request;
