@@ -41,6 +41,8 @@ const Page = () => {
     const [searchKeyword, setSearchKeyword] = useState<string>("");
     const [minimizeLists, setMinimizeLists] = useState(false);
     const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
+    const [isMobileView, setIsMobileView] = useState(false);
+    const [isTabletView, setIsTabletView] = useState(false);
 
     const getUserLists = useCallback(async () => {
         // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
@@ -101,6 +103,38 @@ const Page = () => {
         // handleLoadLists()
         getUserLists()
     }, [searchKeyword])
+
+
+    useEffect(() => {
+        // const mediaQuery = window.matchMedia("(max-width: 768px)");
+        // const tabletMediaQuery = window.matchMedia("(max-width: 1023px)");
+        const tabletMediaQuery = window.matchMedia("(min-width: 601px) and (max-width: 1023px)");
+        const mobileMediaQuery = window.matchMedia("(max-width: 600px)");
+        const handleMobileMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsMobileView(event.matches);
+        };
+        const handleTabletMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsTabletView(event.matches);
+        };
+    
+        // Set initial value
+        setIsMobileView(mobileMediaQuery.matches);
+        mobileMediaQuery.addEventListener("change", handleMobileMediaQueryChange);
+    
+        setIsTabletView(tabletMediaQuery.matches);
+        tabletMediaQuery.addEventListener("change", handleTabletMediaQueryChange);
+    
+        console.log("is mobile", mobileMediaQuery.matches);
+        console.log("is tablet", tabletMediaQuery.matches);
+    
+        // Clean up event listener
+        return () => {
+            mobileMediaQuery.removeEventListener(
+            "change",
+            handleMobileMediaQueryChange
+            );
+        };
+        }, []);
     return (
         <>
 
@@ -109,180 +143,186 @@ const Page = () => {
                 {
                     minimizeLists ? (
                         <>
-                            <div className=" border bg-white min-w-[350px] lg:w-[20%] body-content-height left-section-filter">
-                                <div className="w-full">
-                                    <div className="grid py-[12px] w-full">
-                                    <div className="grid-cols-1 flex px-4">
-                                        <div className="items-center">
-                                            <div className="text-[14px] font-medium flex mt-1">Members</div>
-                                        </div>
-                                        <div className="ml-auto flex gap-1">
-                                        <button
-                                            type="button"
-                                            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 py-1.5 text-center mb-2"
-                                            onClick={() => {
-                                            handleCreateNewRecord();
-                                            }}
-                                        >
-                                            New
-                                        </button>
-                                        </div>
-                                    </div>
-                                    </div>
-
-                                    <hr className=" border-b-0 border-gray-300 -mt-2" />
-
-                                    <div
-                                        className="grid py-2 rounded-lg"
-                                        // onClick={() => {
-                                        //     handleFilterBylabel(null);
-                                        // }}
-                                    >
-                                    <div className="grid-cols-1  hover:bg-gray-100 py-1 rounded-full cursor-pointer">
-                                        <div className="px-4 flex">
-                                        <div className="flex gap-3 text-[14px]">
-                                            All Members
-                                        </div>
-                                        {data?.length > 0 && (
-                                            <div className="ml-auto bg-blue-600 rounded-lg px-3 py-0.5 text-white">
-                                                {data?.length.toLocaleString()}
+                        {
+                            !isMobileView && (
+                                <>
+                                    <div className=" border bg-white min-w-[350px] lg:w-[20%] body-content-height left-section-filter">
+                                        <div className="w-full">
+                                            <div className="grid py-[12px] w-full">
+                                            <div className="grid-cols-1 flex px-4">
+                                                <div className="items-center">
+                                                    <div className="text-[14px] font-medium flex mt-1">Members</div>
+                                                </div>
+                                                <div className="ml-auto flex gap-1">
+                                                <button
+                                                    type="button"
+                                                    className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-2 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 py-1.5 text-center mb-2"
+                                                    onClick={() => {
+                                                    handleCreateNewRecord();
+                                                    }}
+                                                >
+                                                    New
+                                                </button>
+                                                </div>
                                             </div>
-                                        )}
-                                        </div>
-                                    </div>
-                                    </div>
-
-                                    <hr className=" border-b-0 border-gray-300 " />
-
-                                    <div className="grid py-2 px-3">
-
-                                        <form>
-                                            <div className="relative">
-                                                <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
-                                                    <svg
-                                                        className="fill-gray-500 dark:fill-gray-400"
-                                                        width="20"
-                                                        height="20"
-                                                        viewBox="0 0 20 20"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                        fillRule="evenodd"
-                                                        clipRule="evenodd"
-                                                        d="M3.04175 9.37363C3.04175 5.87693 5.87711 3.04199 9.37508 3.04199C12.8731 3.04199 15.7084 5.87693 15.7084 9.37363C15.7084 12.8703 12.8731 15.7053 9.37508 15.7053C5.87711 15.7053 3.04175 12.8703 3.04175 9.37363ZM9.37508 1.54199C5.04902 1.54199 1.54175 5.04817 1.54175 9.37363C1.54175 13.6991 5.04902 17.2053 9.37508 17.2053C11.2674 17.2053 13.003 16.5344 14.357 15.4176L17.177 18.238C17.4699 18.5309 17.9448 18.5309 18.2377 18.238C18.5306 17.9451 18.5306 17.4703 18.2377 17.1774L15.418 14.3573C16.5365 13.0033 17.2084 11.2669 17.2084 9.37363C17.2084 5.04817 13.7011 1.54199 9.37508 1.54199Z"
-                                                        fill=""
+                                            </div>
+        
+                                            <hr className=" border-b-0 border-gray-300 -mt-2" />
+        
+                                            <div
+                                                className="grid py-2 rounded-lg"
+                                                // onClick={() => {
+                                                //     handleFilterBylabel(null);
+                                                // }}
+                                            >
+                                            <div className="grid-cols-1  hover:bg-gray-100 py-1 rounded-full cursor-pointer">
+                                                <div className="px-4 flex">
+                                                <div className="flex gap-3 text-[14px]">
+                                                    All Members
+                                                </div>
+                                                {data?.length > 0 && (
+                                                    <div className="ml-auto bg-blue-600 rounded-lg px-3 py-0.5 text-white">
+                                                        {data?.length.toLocaleString()}
+                                                    </div>
+                                                )}
+                                                </div>
+                                            </div>
+                                            </div>
+        
+                                            <hr className=" border-b-0 border-gray-300 " />
+        
+                                            <div className="grid py-2 px-3">
+        
+                                                <form>
+                                                    <div className="relative">
+                                                        <span className="absolute -translate-y-1/2 left-4 top-1/2 pointer-events-none">
+                                                            <svg
+                                                                className="fill-gray-500 dark:fill-gray-400"
+                                                                width="20"
+                                                                height="20"
+                                                                viewBox="0 0 20 20"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <path
+                                                                fillRule="evenodd"
+                                                                clipRule="evenodd"
+                                                                d="M3.04175 9.37363C3.04175 5.87693 5.87711 3.04199 9.37508 3.04199C12.8731 3.04199 15.7084 5.87693 15.7084 9.37363C15.7084 12.8703 12.8731 15.7053 9.37508 15.7053C5.87711 15.7053 3.04175 12.8703 3.04175 9.37363ZM9.37508 1.54199C5.04902 1.54199 1.54175 5.04817 1.54175 9.37363C1.54175 13.6991 5.04902 17.2053 9.37508 17.2053C11.2674 17.2053 13.003 16.5344 14.357 15.4176L17.177 18.238C17.4699 18.5309 17.9448 18.5309 18.2377 18.238C18.5306 17.9451 18.5306 17.4703 18.2377 17.1774L15.418 14.3573C16.5365 13.0033 17.2084 11.2669 17.2084 9.37363C17.2084 5.04817 13.7011 1.54199 9.37508 1.54199Z"
+                                                                fill=""
+                                                                />
+                                                            </svg>
+                                                        </span>
+                                                        <input
+                                                            ref={inputSearchRef}
+                                                            type="text"
+                                                            value={searchKeyword}
+                                                            onChange={(e) => setSearchKeyword(e.target.value)}
+                                                            placeholder="Search or type command..."
+                                                            className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2 pl-12 pr-14 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                                                         />
-                                                    </svg>
-                                                </span>
-                                                <input
-                                                    ref={inputSearchRef}
-                                                    type="text"
-                                                    value={searchKeyword}
-                                                    onChange={(e) => setSearchKeyword(e.target.value)}
-                                                    placeholder="Search or type command..."
-                                                    className="dark:bg-dark-900 h-10 w-full rounded-lg border border-gray-200 bg-transparent py-2 pl-12 pr-14 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
-                                                />
-
-                                            </div>
-                                        </form>
-                                    </div>  
-                                    <hr className=" border-b-0 border-gray-300 " />
-
-                                    <table className="min-w-full bg-white">
-                                        <thead>
-                                            <tr className="text-gray-600 text-sm font-medium bg-gray-200">
-                                                <th className="text-left p-3 border-b" >Name</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                    <div className="h-[calc(100vh-225px)] md:h-[calc(100vh-335px)] overflow-y-auto">
-    
-                                        <table className="min-w-full bg-white">
-                                            <tbody>
-                                                {
-                                                    isLoading ? (
-                                                        <>
-                                                        {[...Array(15)].map((e:any, i:number) => (
-                                                            <>
-                                                                <tr key={i}>
-                                                                    <td className="py-2">
-    
-                                                                        <div className="w-[100%]">
-                                                                            <Skeleton
-                                                                            className="py-1"
-                                                                            variant="rounded"
-                                                                            width={"100%"}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </>
-                                                        ))}
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {
-                                                                data?.map((member:any, index:number) => (
+        
+                                                    </div>
+                                                </form>
+                                            </div>  
+                                            <hr className=" border-b-0 border-gray-300 " />
+        
+                                            <table className="min-w-full bg-white">
+                                                <thead>
+                                                    <tr className="text-gray-600 text-sm font-medium bg-gray-200">
+                                                        <th className="text-left p-3 border-b" >Name</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div className="h-[calc(100vh-225px)] md:h-[calc(100vh-335px)] overflow-y-auto">
+            
+                                                <table className="min-w-full bg-white">
+                                                    <tbody>
+                                                        {
+                                                            isLoading ? (
+                                                                <>
+                                                                {[...Array(15)].map((e:any, i:number) => (
                                                                     <>
-                                                                        <tr key={index}>
-                                                                            <td 
-                                                                                className={`px-4 py-2 text-[13px] ${selectedMemberId === member.id && 'bg-gray-100' }`}
-                                                                                onClick={() => {
-                                                                                    handlePreviewRecord(member.id)
-                                                                                }}
-                                                                            >
-                                                                                <div className="flex w-full items-center gap-3 justify-start">
-                                                                                    
-                                                                                    <div
-                                                                                        className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white select-none"
-                                                                                        style={{
-                                                                                            background: (NAME_COLOR as any)?.[member?.name?.[0]?.toUpperCase() || "A"],
-                                                                                            // background: (NAME_COLOR as any)?.["A"],
-                                                                                        }}
-                                                                                    >
-                                                                                        {member.name?.split(" ")?.[0]?.[0]?.toUpperCase()}
-                                                                                        {member.name?.split(" ")?.[1]?.[0]?.toUpperCase()}
-                                                                                    </div>
-                                                                                    
-                                                                                    <div>{ member?.name }</div>
-                                            
+                                                                        <tr key={i}>
+                                                                            <td className="py-2">
+            
+                                                                                <div className="w-[100%]">
+                                                                                    <Skeleton
+                                                                                    className="py-1"
+                                                                                    variant="rounded"
+                                                                                    width={"100%"}
+                                                                                    />
                                                                                 </div>
-                                                                                
                                                                             </td>
                                                                         </tr>
                                                                     </>
-                                                                ))
-                                                            }
-                                                        </>
-                                                    )
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div>
-    
-                                        {(data?.length > 0 && !isLoading) && (
-                                        <>
-                                            {pagination && (
-                                                <Pagination
-                                                    pagination={pagination as any}
-                                                    setData={setData}
-                                                    setPagination={setPagination}
-                                                />
-                                            )}
-                                        </>
-                                        )}
-                                    </div>
-                                    <div>
-                                        {(data?.length === 0 && !isLoading) && (
-                                            <div className="text-center text-gray-500 dark:text-gray-400">
-                                                No members found
+                                                                ))}
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    {
+                                                                        data?.map((member:any, index:number) => (
+                                                                            <>
+                                                                                <tr key={index}>
+                                                                                    <td 
+                                                                                        className={`px-4 py-2 text-[13px] ${selectedMemberId === member.id && 'bg-gray-100' }`}
+                                                                                        onClick={() => {
+                                                                                            handlePreviewRecord(member.id)
+                                                                                        }}
+                                                                                    >
+                                                                                        <div className="flex w-full items-center gap-3 justify-start">
+                                                                                            
+                                                                                            <div
+                                                                                                className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white select-none"
+                                                                                                style={{
+                                                                                                    background: (NAME_COLOR as any)?.[member?.name?.[0]?.toUpperCase() || "A"],
+                                                                                                    // background: (NAME_COLOR as any)?.["A"],
+                                                                                                }}
+                                                                                            >
+                                                                                                {member.name?.split(" ")?.[0]?.[0]?.toUpperCase()}
+                                                                                                {member.name?.split(" ")?.[1]?.[0]?.toUpperCase()}
+                                                                                            </div>
+                                                                                            
+                                                                                            <div>{ member?.name }</div>
+                                                    
+                                                                                        </div>
+                                                                                        
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </>
+                                                                        ))
+                                                                    }
+                                                                </>
+                                                            )
+                                                        }
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        )}
+                                            <div>
+            
+                                                {(data?.length > 0 && !isLoading) && (
+                                                <>
+                                                    {pagination && (
+                                                        <Pagination
+                                                            pagination={pagination as any}
+                                                            setData={setData}
+                                                            setPagination={setPagination}
+                                                        />
+                                                    )}
+                                                </>
+                                                )}
+                                            </div>
+                                            <div>
+                                                {(data?.length === 0 && !isLoading) && (
+                                                    <div className="text-center text-gray-500 dark:text-gray-400">
+                                                        No members found
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </>
+                            )
+                        }
                             <div className="w-full">
                                 <Preview 
                                     memberId={selectedMemberId}

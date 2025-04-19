@@ -40,6 +40,9 @@ import {
     getCountryData,
     getEmojiFlag,
 } from "countries-list";
+import {
+    EditIcon
+} from '@/components/ui/icons/icons'
 
 interface IPreviewProps {
     memberId?: any;
@@ -108,7 +111,7 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                         </div>
                                         <div className="ml-auto">
 
-                                            Edit
+                                            <EditIcon width="18px" height="18px" />
 
                                         </div>
                                     </div>
