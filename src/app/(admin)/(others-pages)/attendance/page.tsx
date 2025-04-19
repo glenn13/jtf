@@ -77,33 +77,13 @@ const Page = () => {
         // setSelectedId(null);
     }
 
-    // const handleLoadLists = async () => {
-    //     toast.success('Member created successfully!');
-    //     // console.log('okay na')
-    //     getAttendanceLists()
-    //     setIsModalOpen(false)
-    // }
 
-
-    // const getAttendanceMember = useCallback(async () => {
-    //     // const response = await apiGetUsers(leadType, sortByColumn, sortByOrder, userToken);
-    //     const keyword = searchKeyword;
-    //     const response = await getMembersByEvent(selectedEventId, searchKeyword, userToken);
-    //     if (response?.status) {
-    //         // console.log('dito', response?.data?.members)
-    //         setAttendance(response?.data?.members);
-    //         setPaginationAttendance(response?.data?.members);
-    //         setIsLoadingMember(false);
-    //         // setIsFirstSectionLoaded(true);
-    //         // setLabels(response?.data);
-    //     }
-    // }, [selectedEventId, searchKeyword]);
-
+    // useEffect(() => {
+    //     getEventLists()
+    // }, [searchKeyword])
     useEffect(() => {
-        // handleLoadLists()
-        getEventLists()
-        // getAttendanceLists()
-    }, [searchKeyword])
+        getEventLists(); // Call the function
+    }, [searchKeyword, getEventLists]); // 
 
     const handleClosePreview = () => {
         setSelectedEventId(null)

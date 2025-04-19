@@ -102,7 +102,7 @@ const Page = () => {
     useEffect(() => {
         // handleLoadLists()
         getUserLists()
-    }, [searchKeyword])
+    }, [searchKeyword, getUserLists])
 
 
     useEffect(() => {
