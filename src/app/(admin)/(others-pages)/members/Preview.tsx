@@ -127,8 +127,8 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                     <hr className=" border-b-0 border-gray-300 -mt-[4px]" />
 
 
-                    <div className="grid grid-cols-12 h-[calc(100vh-138px)]">
-                        <div className="col-span-12 p-4">
+                    <div className="grid grid-cols-12 h-[calc(100vh-138px)] overflow-y-auto">
+                        <div className="col-span-12 py-4">
                             <div className="grid grid-cols-12 gap-2">
                                 <div className="col-span-12">
 
@@ -155,7 +155,7 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                     </div>
                                 </div>
                                 <div className="col-span-12">
-                                    <div className="space-y-6 bg-white border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                                    <div className="space-y-6 bg-white dark:border-gray-800 rounded-xl p-4">
                                         <div className=" rounded-xl ">
                                             <div className="border-b border-gray-200 ">
                                                 <nav className="-mb-px flex space-x-2 overflow-x-auto rounded-full ">
@@ -164,15 +164,15 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                                         <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">8</span>
                                                     </button>
                                                     <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                                                        Notification
+                                                        Attendance
                                                     </button>
                                                     <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                                                        Analytics
+                                                        Spiritual Growth
                                                         <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">4</span>
                                                     </button>
                                                     <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                                                        Customers
-                                                        <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">12</span>
+                                                        Trainings
+                                                        <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">4</span>
                                                     </button>
                                                 </nav>
                                             </div>
@@ -180,9 +180,10 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                                 <div className="block">
                                                     <div>
                                                         <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Overview</h3>
+                                                        <hr className="py-2 mt-4" />
                                                         <div className="grid grid-cols-12">
                                                             
-                                                            <div className="col-span-12">
+                                                            <div className="col-span-12 mb-1">
                                                                 <div className="flex w-full items-center justify-start ">
                                                                     <div className="flex w-[100px] items-center text-[15px]">
                                                                         Name
@@ -192,28 +193,95 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="col-span-12">
+                                                            <div className="col-span-12 mb-1">
                                                                 <div className="flex w-full items-center justify-start ">
                                                                     <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Birthdate
+                                                                        Address
                                                                     </div>
                                                                     <div className="text-[15px]">
-                                                                        { data?.birthdate }
+                                                                        N/A
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="col-span-12">
+                                                            <div className="col-span-12 mb-1">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Civil Status
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        N/A
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12 mb-1">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Gender
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        N/A
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12 mb-1">
                                                                 <div className="flex w-full items-center justify-start ">
                                                                     <div className="flex w-[100px] items-center text-[15px]">
                                                                         Birthdate
                                                                     </div>
                                                                     <div className="text-[15px]">
-                                                                        { data?.birthdate }
+                                                                        N/A
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12 mb-1">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Age
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        N/A
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12 mb-1">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Contact
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        N/A
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="text-sm text-gray-500 dark:text-gray-400">Overview ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</div>
+                                                        <div className="h-[30px]"></div>
+                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Social Media</h3>
+                                                        <hr className="py-2 mt-4" />
+                                                        
+                                                        
+                                                        <div className="grid grid-cols-12">
+                                                            
+                                                            <div className="col-span-12">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Email
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        N/A
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-span-12">
+                                                                <div className="flex w-full items-center justify-start ">
+                                                                    <div className="flex w-[100px] items-center text-[15px]">
+                                                                        Facebook
+                                                                    </div>
+                                                                    <div className="text-[15px]">
+                                                                        N/A
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="hidden">
