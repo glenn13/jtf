@@ -6,6 +6,8 @@ import Badge from "@/components/ui/badge/Badge";
 import Pagination from "@/components/ui/pagination/Pagination";
 import Switch from "@/components/form/switch/Switch";
 import Checkbox from '@/components/form/input/Checkbox';
+import OverviewTabPreviewComponent from "./components/tabs/OverviewTabPreviewComponent";
+import AttendanceTabPreviewComponent from "./components/tabs/AttendanceTabPreviewComponent";
 import { NAME_COLOR } from "@/components/utils/common";
 import {
     ChevronLeftIcon
@@ -55,6 +57,7 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
     
     const [data, setData] = useState<any>();
     const inputSearchRef = useRef<HTMLInputElement>(null);
+    const [activeTab, setActiveTab] = useState<string>("overview");
     
       useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -128,9 +131,9 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
 
 
                     <div className="grid grid-cols-12 h-[calc(100vh-138px)] overflow-y-auto">
-                        <div className="col-span-12 py-4">
+                        <div className="col-span-12">
                             <div className="grid grid-cols-12 gap-2">
-                                <div className="col-span-12">
+                                {/* <div className="col-span-12">
 
                                     <div className="flex w-full gap-3 items-center justify-center">
                                         
@@ -153,155 +156,106 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                             
 
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="col-span-12">
                                     <div className="space-y-6 bg-white dark:border-gray-800 rounded-xl p-4">
                                         <div className=" rounded-xl ">
                                             <div className="border-b border-gray-200 ">
                                                 <nav className="-mb-px flex space-x-2 overflow-x-auto rounded-full ">
-                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400">
+                                                    <button 
+                                                        className={` ${ activeTab === 'overview' ? 'text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400' : 'text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' } inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out `}
+                                                        onClick={() => {
+                                                            setActiveTab("overview")
+                                                        }}
+                                                    >
                                                         Overview
                                                         <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">8</span>
                                                     </button>
-                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                    <button 
+                                                        className={` ${ activeTab === 'attendance' ? 'text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400' : 'text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' } inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out `}
+                                                        onClick={() => {
+                                                            setActiveTab("attendance")
+                                                        }}
+                                                    >
                                                         Attendance
                                                     </button>
-                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                                                        Spiritual Growth
+                                                    <button 
+                                                        className={` ${ activeTab === 'growth' ? 'text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400' : 'text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' } inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out `}
+                                                        onClick={() => {
+                                                            setActiveTab("growth")
+                                                        }}
+                                                    >
+                                                        Growth
                                                         <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">4</span>
                                                     </button>
-                                                    <button className="inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out bg-transparent text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                    <button 
+                                                        className={` ${ activeTab === 'training' ? 'text-brand-500 dark:border-brand-400 border-brand-500 dark:text-brand-400' : 'text-gray-500 border-transparent hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' } inline-flex items-center gap-2 border-b-2 px-2.5 py-2 text-sm font-medium transition-colors duration-200 ease-in-out `}
+                                                        onClick={() => {
+                                                            setActiveTab("training")
+                                                        }}
+                                                    >
                                                         Trainings
                                                         <span className="inline-block items-center justify-center rounded-full bg-brand-50 px-2 py-0.5 text-center text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">4</span>
                                                     </button>
                                                 </nav>
                                             </div>
                                             <div className="pt-4 dark:border-gray-800">
-                                                <div className="block">
-                                                    <div>
-                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Overview</h3>
-                                                        <hr className="py-2 mt-4" />
-                                                        <div className="grid grid-cols-12">
-                                                            
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Name
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        { data?.name }
-                                                                    </div>
-                                                                </div>
+                                                {
+                                                    activeTab === 'overview' ? (
+                                                        <OverviewTabPreviewComponent
+                                                            memberId={memberId}
+                                                        />
+                                                    ) : activeTab === 'attendance' ? (
+                                                        <AttendanceTabPreviewComponent
+                                                            memberId={memberId}
+                                                        />
+                                                    ) : activeTab === 'growth' ? (
+                                                        <div className="flex items-center justify-center w-full h-full">
+                                                            <div className="text-gray-500 text-[15px]">
+                                                                No data available
                                                             </div>
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Address
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
+                                                        </div>
+                                                    ) : activeTab === 'training' ? (
+                                                        <div className="flex items-center justify-center w-full h-full">
+                                                            <div className="text-gray-500 text-[15px]">
+                                                                No data available
                                                             </div>
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Civil Status
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex items-center justify-center w-full h-full">
+                                                            <div className="text-gray-500 text-[15px]">
+                                                                No data available
                                                             </div>
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Gender
+                                                        </div>
+                                                    )
+                                                }
+                                                {/* {
+                                                    activeTab === 'attendance' && (
+                                                        <div className="grid grid-cols-12 gap-2">
+                                                            <div className="col-span-12">
+                                                                <div className="flex w-full gap-3 items-center justify-center">
+                                                                    <div
+                                                                        className="flex items-center justify-center w-[80px] h-[80px] rounded-full bg-primary text-white select-none text-2xl"
+                                                                        style={{
+                                                                            background: (NAME_COLOR as any)?.[data?.name?.[0]?.toUpperCase() || "A"],
+                                                                            // background: (NAME_COLOR as any)?.["A"],
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            data?.name && (
+                                                                                <>
+                                                                                    {data?.name?.split(" ")?.[0]?.[0]?.toUpperCase()}
+                                                                                    {data?.name?.split(" ")?.[1]?.[0]?.toUpperCase()}
+                                                                                </>
+                                                                            )
+                                                                        }
                                                                     </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Birthdate
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Age
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-span-12 mb-1">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Contact
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="h-[30px]"></div>
-                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Social Media</h3>
-                                                        <hr className="py-2 mt-4" />
-                                                        
-                                                        
-                                                        <div className="grid grid-cols-12">
-                                                            
-                                                            <div className="col-span-12">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Email
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-span-12">
-                                                                <div className="flex w-full items-center justify-start ">
-                                                                    <div className="flex w-[100px] items-center text-[15px]">
-                                                                        Facebook
-                                                                    </div>
-                                                                    <div className="text-[15px]">
-                                                                        N/A
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="hidden">
-                                                    <div>
-                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Notification</h3>
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400">Notification ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</p>
-                                                    </div>
-                                                </div>
-                                                <div className="hidden">
-                                                    <div>
-                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Analytics</h3>
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400">Analytics ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</p>
-                                                    </div>
-                                                </div>
-                                                <div className="hidden">
-                                                    <div>
-                                                        <h3 className="mb-1 text-xl font-medium text-gray-800 dark:text-white/90">Customers</h3>
-                                                        <p className="text-sm text-gray-500 dark:text-gray-400">Customers ipsum dolor sit amet consectetur. Non vitae facilisis urna tortor placerat egestas donec. Faucibus diam gravida enim elit lacus a. Tincidunt fermentum condimentum quis et a et tempus. Tristique urna nisi nulla elit sit libero scelerisque ante.</p>
-                                                    </div>
-                                                </div>
+                                                    )
+                                                } */}
                                             </div>
                                         </div>
                                     </div>
