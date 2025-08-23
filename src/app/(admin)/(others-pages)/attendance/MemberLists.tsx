@@ -287,7 +287,7 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                     }}
                                                                                 >
                                                                                     <div>
-                                                                                        { item?.name } 
+                                                                                        { item?.name } test
                                                                                     </div>
                                                                                     {
                                                                                         (item?.is_new === true) && (

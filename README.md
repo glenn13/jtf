@@ -155,3 +155,9 @@ If you find this project helpful, please consider giving it a star on GitHub. Yo
 
 
 ## Reference Template: https://nextjs-demo.tailadmin.com/inbox-details
+
+
+
+pm2 delete jtf-app  
+
+pm2 start npm --name jtf-app   -- start
