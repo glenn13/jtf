@@ -287,7 +287,24 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                         handleSwitchChange(item?.id, !item?.attended)
                                                                                     }}
                                                                                 >
-                                                                                    { item?.name }
+                                                                                    <div>
+                                                                                        { item?.name }
+                                                                                    </div>
+                                                                                    {
+                                                                                        item?.is_new && (
+                                                                                            <>
+                                                                                                <div style={{
+                                                                                                    background: '#09b609',
+                                                                                                    fontSize: '11px',
+                                                                                                    padding: '0px 10px',
+                                                                                                    borderRadius: '32px',
+                                                                                                    color: '#fff',
+                                                                                                }}>
+                                                                                                    New
+                                                                                                </div>
+                                                                                            </>
+                                                                                        )
+                                                                                    }
                                                                                 </div>
                                                                             </div>
                                                                             
