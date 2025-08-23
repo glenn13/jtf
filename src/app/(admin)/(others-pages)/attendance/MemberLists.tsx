@@ -290,7 +290,7 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                         { item?.name }
                                                                                     </div>
                                                                                     {
-                                                                                        item?.is_new && (
+                                                                                        item?.is_new ? (
                                                                                             <>
                                                                                                 <div style={{
                                                                                                     background: '#09b609',
@@ -300,6 +300,18 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                                     color: '#fff',
                                                                                                 }}>
                                                                                                     New
+                                                                                                </div>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <div style={{
+                                                                                                    background: '#f0f0f0',
+                                                                                                    fontSize: '11px',
+                                                                                                    padding: '0px 10px',
+                                                                                                    borderRadius: '32px',
+                                                                                                    color: '#000',
+                                                                                                }}>
+                                                                                                    Old
                                                                                                 </div>
                                                                                             </>
                                                                                         )
