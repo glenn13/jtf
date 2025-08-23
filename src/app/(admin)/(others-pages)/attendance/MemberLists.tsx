@@ -283,7 +283,6 @@ const MemberLists = ({ eventId, onHandleClosePreview }: IMemberListsProps) => {
                                                                                             }
                                                                                             return member
                                                                                         }))
-                                                                                        
                                                                                         handleSwitchChange(item?.id, !item?.attended)
                                                                                     }}
                                                                                 >
