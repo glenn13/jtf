@@ -120,9 +120,6 @@ const Preview = ({ memberId, onHandleClosePreview }: IPreviewProps) => {
                                     </div>
                                     
                                 </div>
-                                {/* <div className="ml-auto">
-                                    Event Details
-                                </div> */}
                             </div>
                         </div>
                     </div>
