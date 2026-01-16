@@ -7,7 +7,8 @@
 // };
 
 export const CONFIG = {
-    // API_BASE: 'http://127.0.0.1:8000',
-    API_BASE: 'https://jtfapi.projectmix.ai',
+    API_BASE: 'http://127.0.0.1:8000',
+    // API_BASE: 'http://10.255.254.50:8080',
+    // API_BASE: 'https://jtfapi.projectmix.ai',
 };
 
