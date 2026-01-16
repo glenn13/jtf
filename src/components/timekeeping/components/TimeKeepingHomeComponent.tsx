@@ -53,33 +53,18 @@ const TimeKeepingHomeComponent = ({ onHandleGoDetails }: ITimeKeepingHomeCompone
         getList()
     }, [getList])
 
-    const handleLoadLists = useCallback(() => {
+    const handleLoadLists = () => {
         getList();
-    }, [getList]);
+    }
     
 
 
-
+//  h-[calc(100vh-310px)] overflow-y-auto no-scrollbar
     return (
         <>
-           
+        <div> 
           {/* Header */}
           <div className="pt-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-yellow-500">Time Keeping</span>
-              <div>
-                
-                <div>
-                  <p className="font-medium text-gray-800">
-                    {uaeTime}
-                  </p>
-                </div>
-              </div>
-            </div>
-  
-            <p className="text-sm text-gray-500 mt-6">
-              Today is: {currentDate}
-            </p>
   
             <div className="flex items-center justify-between mt-2">
               <h1 className="text-2xl font-bold text-gray-900">
@@ -160,7 +145,7 @@ const TimeKeepingHomeComponent = ({ onHandleGoDetails }: ITimeKeepingHomeCompone
   
           {/* Time entries */}
           <div 
-                className="mt-4 space-y-4 h-[calc(100vh-310px)] overflow-y-auto no-scrollbar"
+                className="mt-4 space-y-4"
             >
             {/* Entry */}
             {
@@ -216,6 +201,7 @@ const TimeKeepingHomeComponent = ({ onHandleGoDetails }: ITimeKeepingHomeCompone
                 )
             }
 
+        </div>  
         </>
     )
 

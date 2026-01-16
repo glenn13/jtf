@@ -51,3 +51,29 @@ export const apiCreateTimeKeepingLog = async (request: any, token:string) => {
         throw error;
     }
 };
+
+export const apiGetTimeKeepingLogsList = async (token:string) => {
+    try {
+
+        const url = `${CONFIG.API_BASE}/api/timekeepings/list`;
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data; // Assuming the API response has a `data` field
+    } catch (error) {
+        console.error('Error verifying username', error);
+        throw error;
+    }
+};
