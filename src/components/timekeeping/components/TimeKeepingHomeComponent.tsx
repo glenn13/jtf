@@ -53,9 +53,9 @@ const TimeKeepingHomeComponent = ({ onHandleGoDetails }: ITimeKeepingHomeCompone
         getList()
     }, [getList])
 
-    const handleLoadLists = () => {
+    const handleLoadLists = useCallback(() => {
         getList();
-    }
+    }, [getList]);
     
 
 

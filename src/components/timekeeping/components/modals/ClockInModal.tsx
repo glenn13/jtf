@@ -111,7 +111,8 @@ const ClockInModal: React.FC<ClockInModalProps> = ({
             }
             setIsLoading(false);
         }
-    }, [userToken, currentDate, data]);
+    }, [userToken, currentDate]);
+    // , data
     useEffect(() => {
         if (currentDate) {
             getList()
@@ -157,6 +158,7 @@ const ClockInModal: React.FC<ClockInModalProps> = ({
         // }
         const response = await apiCreateTimeKeepingLog(formData, userToken);
         if (response?.status) {
+            // setStartProgress(false)
             // toastSuccess(message);
             // onHandleLoadLists();
             // toast.success('Form submitted successfully!');
@@ -174,7 +176,7 @@ const ClockInModal: React.FC<ClockInModalProps> = ({
                 const interval = setInterval(() => {
                     current += 50 / duration * 100;
                     setProgress(current);
-                    console.log('current', current)
+                    console.log('current upp', current)
                     if (current >= 100) {
                         clearInterval(interval);
                         // toast.success('Started');
@@ -196,16 +198,18 @@ const ClockInModal: React.FC<ClockInModalProps> = ({
                 const interval = setInterval(() => {
                     current -= 80 / duration * 100;
                     setProgress(current <= 0 ? 0 : current);
-                    console.log('current', current)
-                     if (current <= 0) {
-                        clearInterval(interval);
-                        // toast.success('Ended');
+                    console.log('current down', current)
+                        if (current <= 0) {
                         setData({
                             ...data,
                             driver: '',
                             origin: '',
                             destination: '',
-                        })
+                        });
+                    }
+                     if (current <= 0) {
+                        clearInterval(interval);
+                        // toast.success('Ended');
                         setTimeout(() => {
                             setStartProgress(false); 
                             handleClose()
@@ -217,8 +221,9 @@ const ClockInModal: React.FC<ClockInModalProps> = ({
                 return () => clearInterval(interval);
             }
         }
-    }, [startProgress, data, handleClose, onHandleLoadLists, progress]);
-
+    }, [startProgress]);
+    // }, [startProgress, progress, data, handleClose, onHandleLoadLists]);
+// data, handleClose, onHandleLoadLists
     return (
         <Modal
             isOpen={isOpen}
